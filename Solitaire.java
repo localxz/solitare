@@ -56,14 +56,14 @@ public class Solitaire
 			piles[i].peek().turnUp();
 		}
 	}
-	public void dealThreeCards()
-	{
-		for(int i = 0; i < 3 && !(stock.empty()); i++)
-		{
-			waste.push(stock.pop());
-			waste.peek().turnUp();
+	public void dealThreeCards() {
+		for (int i = 0; i < 3 && !stock.isEmpty(); i++) {
+			Card card = stock.pop();
+			card.turnUp();
+			waste.push(card);
 		}
 	}
+	
 	public ArrayList<Card> createStock()
 	{
 		ArrayList<Card> res = new ArrayList<Card>();
@@ -152,6 +152,7 @@ public class Solitaire
 			display.unselect();
 		}
 	}
+	
 	
 	//precondition:  0 <= index < 4
 	//called when given foundation is clicked
