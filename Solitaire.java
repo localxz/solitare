@@ -62,7 +62,17 @@ public class Solitaire
 			card.turnUp();
 			waste.push(card);
 		}
+		Stack<Card> temp = new Stack<Card>();
+		for (int i = 0; i < 3; i++) {
+			if (!waste.isEmpty()) {
+				temp.push(waste.pop());
+			}
+		}
+		while (!temp.isEmpty()) {
+			waste.push(temp.pop());
+		}
 	}
+	
 	
 	public ArrayList<Card> createStock()
 	{
@@ -146,10 +156,12 @@ public class Solitaire
 
 	//called when the waste is clicked
 	public void wasteClicked() {
-		if (!display.isWasteSelected() && !display.isPileSelected() && !waste.isEmpty()) {
-			display.selectWaste();
-		} else {
-			display.unselect();
+		if (!display.isPileSelected()) {
+			if (!display.isWasteSelected()) {
+				display.selectWaste();
+			} else {
+				display.unselect();
+			}
 		}
 	}
 	
@@ -277,5 +289,9 @@ private void moveCardsBetweenPiles(int i1, int i2) {
             return card.getSuit().equals(topCard.getSuit()) && card.getRank() == topCard.getRank() + 1;
         }
     }
+	public Stack<Card> getWaste() {
+		return waste;
+	}
+	
 
 }

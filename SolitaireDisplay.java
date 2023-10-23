@@ -34,6 +34,7 @@ public class SolitaireDisplay extends JComponent implements MouseListener
 
 	public void paintComponent(Graphics g)
 	{
+
 		//background
 		g.setColor(new Color(0, 128, 0));
 		g.fillRect(0, 0, getWidth(), getHeight());
@@ -67,24 +68,39 @@ public class SolitaireDisplay extends JComponent implements MouseListener
 					offset += FACE_DOWN_OFFSET;
 			}
 		}
+
+		Stack<Card> wasteStack = game.getWaste();
+		int wasteX = SPACING * 2 + CARD_WIDTH;
+    	int wasteY = SPACING;
+
+    	for (int i = Math.max(wasteStack.size() - 3, 0); i < wasteStack.size(); i++)
+		 {
+        	drawCard(g, wasteStack.get(i), wasteX, wasteY);
+        	wasteX += FACE_UP_OFFSET;
+    	 }
+
+		if (selectedRow == 0 && selectedCol == 1)
+		 {
+			drawBorder(g, SPACING * 2 + CARD_WIDTH, SPACING);
+		 }
 	}
 
-	private void drawCard(Graphics g, Card card, int x, int y)
-	{
-		if (card == null)
-		{
+	private void drawCard(Graphics g, Card card, int x, int y) {
+		if (card == null) {
 			g.setColor(Color.BLACK);
 			g.drawRect(x, y, CARD_WIDTH, CARD_HEIGHT);
-		}
-		else
-		{
+		} else {
 			String fileName = card.getFileName();
-			if (!new File(fileName).exists())
-				throw new IllegalArgumentException("bad file name:  " + fileName);
+			if (!new File(fileName).exists()) {
+				throw new IllegalArgumentException("bad file name: " + fileName);
+			}
 			Image image = new ImageIcon(fileName).getImage();
 			g.drawImage(image, x, y, CARD_WIDTH, CARD_HEIGHT, null);
 		}
 	}
+
+
+
 
 	public void mouseExited(MouseEvent e)
 	{
